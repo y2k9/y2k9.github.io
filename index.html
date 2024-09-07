@@ -1,21 +1,46 @@
 <!DOCTYPE html>
 
-
-<html lang="en-US">
+<html>
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title> Y2K Website </title>
-    <link rel="icon" type="image/png" sizes="favicon-32x32" href="/favicon_io/favicon-32x32.png"> <!-- for other browsers -->
+    <meta name="viewport" content=""width=device-width. initial-scale="1.0">
+    <title> Goose Game </title>
     <link rel="icon" type="image/png" sizes="favicon-16x16" href="favicon_io/favicon-32x32.png"> <!-- this is needed for arc -->
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="game.js" defer></script>
+
 </head>
+
 
 <body>
 
-    <h1>Welcome to Y2K Website </h1>
+    <div class="header">
 
-    <p> New websites coming every week</p>
+        <div class="buttons">
+            <button type="button" class="start">Start</button>
+            <button type="button" class="end">End</button>
+            <button type="button" class="reset">Reset</button>
+        </div>
+
+        <div class="title">
+            <h1 id="gamename">The Goose Game</h1>
+            <!--- TODO: add a info icon with latest update etc -->
+        </div>
+
+        <div class="scorediv">
+            <p id="score"> Score </p>
+        </div>
+
+    </div>
+    
+    <img id="hero" src="images/rightWalk1.png" alt="pic of goose"> 
+
+    <canvas width=100 height=100 id="game">
+       
+    </canvas>
+
 </body>
 
 </html>
