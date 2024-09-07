@@ -56,12 +56,16 @@ button:active {
     width: 40px;
     height: 60px;
     position: absolute;
-    left: 0;
-    top: 100px;
+   
 }
 
 canvas {
     margin: 10px;
     border: 2px solid #2b1e30;
     border-radius: 5px;
+}
+
+#score {
+    font-size: larger;
+    padding-right: 10px;
 }
