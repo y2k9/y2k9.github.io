@@ -1,0 +1,67 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Optional: Prevent scrolling */
+  }
+
+h1 {
+    color: #2b1e30;
+}
+
+button {
+    background-color: #2b1e30;
+    color: white;
+    border: 1px solid white;
+    border-radius: 3px;
+    width: 100px;
+    height: 30px;
+    font-size: 24px;
+
+}
+
+button:hover {
+    background-color: #7e6389;
+}
+
+button:active {
+    background-color: black;
+}
+
+
+
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Courier New', Courier, monospace;
+    height: 50px;
+    margin: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.gamewindow {
+    background-color: red;
+    border: 2px solid red;
+}
+
+#hero {
+    width: 40px;
+    height: 60px;
+    position: absolute;
+    left: 0;
+    top: 100px;
+}
+
+canvas {
+    margin: 10px;
+    border: 2px solid #2b1e30;
+    border-radius: 5px;
+}
