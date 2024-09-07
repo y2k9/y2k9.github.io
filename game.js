@@ -8,18 +8,15 @@ Game is about catching a goose with a box
 */
 
 // declare variables
-const startBtn = document.querySelector(".start");
-const endBtn = document.querySelector(".end");
 const resetBtn = document.querySelector(".reset");
 const goose = document.getElementById("hero");
 
 let score = 0;
-let xGoose = 10;
+let xGoose = 20;
 let yGoose = 90;
 const stepSize = 5;
 let walkingState = 1;
 let dx = dy = 0;
-
 
 const treat = {
     x: 300,
@@ -27,46 +24,29 @@ const treat = {
 }
 
 
-
+// initialise game
 let canvas = document.getElementById("game");
 let context = canvas.getContext('2d');
 
 canvas.style.width = (window.innerWidth-20)+"px";
 canvas.style.height = (window.innerHeight-200)+"px";
 
-/*
-const ctx = document.getElementById("canvas").getContext("2d");
-const goose = new Image();
+goose.style.left = "20px";
+goose.style.top = "90px";
 
-img.addEventListener("load", () => {
-  ctx.drawImage(img, 0, 0);
-});
-
-goose.src = "images/rightWalk1.png";
-*/
 
 document.getElementById("score").innerHTML = "Score: " + score;
 
 // buttons
-
-startBtn.addEventListener("click", changeToRed);
-endBtn.addEventListener("click", changeItBack);
 resetBtn.addEventListener("click", resetGoose);
 
 
-// define functions
-function changeToRed() {
-    document.getElementById("gamename").style.color = "red";
-    score++;
-    document.getElementById("score").innerHTML = "Score: " + score;
-}
 
-function changeItBack() {
-    document.getElementById("gamename").style.color = "#2b1e30";
-}
 
+
+// move functions
 function stepLeft(){
-    if (xGoose<0){
+    if (xGoose<20){
         xGoose = window.innerWidth;
     } else {
         xGoose -= stepSize;
@@ -75,9 +55,8 @@ function stepLeft(){
     goose.style.left = xGoose + "px";
     goose.src = "images/goose.png";
 }
-
 function stepRight() {
-    if (xGoose> window.innerWidth-goose.width) {
+    if (xGoose > (window.innerWidth-50)) {
         xGoose = 0;
     } else {
         xGoose += stepSize;
@@ -85,30 +64,33 @@ function stepRight() {
     goose.style.left = xGoose + "px";
     goose.src = "images/rightWalk1.png";
 }
-
 function stepDown() {
-    if (yGoose> window.innerHeight-goose.width) {
-        yGoose = 0;
+    if (yGoose> window.innerHeight-180) {
+        yGoose = 80;
     } else {
         yGoose += stepSize;
     }
     goose.style.top = yGoose + "px";
+    goose.src = "images/downWalk1.png";
 
 }
-
 function stepUp() {
-    if (yGoose < goose.width) {
-        yGoose = window.innerHeight;
+    if (yGoose < 90) {
+        yGoose = window.innerHeight-180;
     } else {
         yGoose -= stepSize;
     }
     goose.style.top = yGoose + "px";
+    goose.src = "images/upWalk1.png";
 }
 
+
+// gameplay
 function resetGoose() {
-    xGoose = 10;
-    yGoose = 80;
+    xGoose = 20;
+    yGoose = 90;
     dx = dy = 0;
+    score = 0;
     goose.style.left = xGoose + "px";
     goose.style.top = yGoose + "px";
     console.log("Position reset");
@@ -117,14 +99,14 @@ function resetGoose() {
 
 function createTreat() {
     
+    
 }
 
-
+// main loop
 function loop() {
     requestAnimationFrame(loop);
 
     // make the goose walk by velocity
-    console.log("game loop");
     if (dx==-1){
         stepLeft();
     } else if (dx==1){
@@ -144,6 +126,11 @@ function loop() {
 
 }
 
+function incrementScore() {
+    score++;
+    console.log("The score is "+score);
+    document.getElementById("score").innerHTML = "Score: " + score;
+}
 
 
 // listen for steps
@@ -159,11 +146,13 @@ document.addEventListener('keydown', function(e) {
         console.log('Right was pressed');
         dx = 1;
         dy = 0;
+        
     }
     else if(e.which === 38) {
         console.log('Up was pressed');
         dy = -1;
         dx = 0;
+        incrementScore();
     }
     else if(e.which == 40) {
         console.log('Down was pressed');
@@ -172,5 +161,16 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+
+// execute game
 requestAnimationFrame(loop);
+
+
+
+
+
+
+
+
+
 
