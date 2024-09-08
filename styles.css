@@ -61,6 +61,13 @@ button:active {
     width: 40px;
     height: 60px;
     position: absolute;
+    display: none;
+}
+
+#glassbox {
+    width: 80px;
+    height: 80px;
+    position: absolute;
    
 }
 
@@ -87,6 +94,31 @@ canvas {
     z-index: 1;
     background-color: white;
 }
+
+.gameover {
+    display: none;
+    position: absolute;
+    width: 40%;
+    top:30%;
+    left:30%;
+    border: 2px solid #2b1e30;
+    border-radius: 3px;
+    padding: 10px;
+    z-index: 2;
+    background-color: white;
+}
+
+.gameovereset {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.restartGame {
+    align-self: center;
+}
+
+
 
 .popupheader {
     display: flex;
