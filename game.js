@@ -9,7 +9,11 @@ Game is about catching a goose with a box
 
 // declare variables
 const resetBtn = document.querySelector(".reset");
+const appleBtn = document.querySelector(".create");
 const goose = document.getElementById("hero");
+const infoBtn = document.getElementById("infoicon");
+const infoPopUp = document.getElementById("popup");
+const closePopUpBtn = document.getElementById("close");
 
 let score = 0;
 let xGoose = 20;
@@ -18,7 +22,7 @@ const stepSize = 5;
 let walkingState = 1;
 let dx = dy = 0;
 
-const treat = {
+const apple = {
     x: 300,
     y: 300,
 }
@@ -39,8 +43,9 @@ document.getElementById("score").innerHTML = "Score: " + score;
 
 // buttons
 resetBtn.addEventListener("click", resetGoose);
-
-
+// appleBtn.addEventListener("click",createApple);
+infoBtn.addEventListener("click",showInfoPopUp);
+closePopUpBtn.addEventListener("click",hideInfoPopUp);
 
 
 
@@ -84,6 +89,14 @@ function stepUp() {
     goose.src = "images/upWalk1.png";
 }
 
+function showInfoPopUp() {
+    infoPopUp.style.display = "block";
+}
+
+function hideInfoPopUp() {
+    infoPopUp.style.display = "none";
+}
+
 
 // gameplay
 function resetGoose() {
@@ -97,8 +110,14 @@ function resetGoose() {
 }
 
 
-function createTreat() {
-    
+function createApple() {
+    apple.x = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+    console.log(apple.x);
+    apple.y = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+    console.log(apple.y);
+
+    context.fillStyle = "red";
+    context.fillRect(apple.x, apple.y, 5, 5);
     
 }
 
@@ -164,13 +183,3 @@ document.addEventListener('keydown', function(e) {
 
 // execute game
 requestAnimationFrame(loop);
-
-
-
-
-
-
-
-
-
-
