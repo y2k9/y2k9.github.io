@@ -5,8 +5,13 @@ body, html {
     overflow: hidden; /* Optional: Prevent scrolling */
   }
 
-h1 {
+h1, h2, p {
     color: #2b1e30;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.popupversion > p {
+    color:#a996b0;
 }
 
 button {
@@ -68,4 +73,48 @@ canvas {
 #score {
     font-size: larger;
     padding-right: 10px;
+}
+
+.popup {
+    display: none;
+    position: absolute;
+    width: 40%;
+    top:30%;
+    left:30%;
+    border: 2px solid #2b1e30;
+    border-radius: 3px;
+    padding: 10px;
+    z-index: 1;
+    background-color: white;
+}
+
+.popupheader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.title > img {
+    height: 20px;
+    width: 20px;
+}
+
+#close {
+    border: 1px solid #2b1e30;
+    padding: 3px;
+    border-radius: 1px;
+}
+
+.popupcontent {
+    overflow-y: scroll;
+}
+
+#close.hover {
+    color: #7e6389;
 }
