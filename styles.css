@@ -52,7 +52,7 @@ body {
     height: 500px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     padding-left: 50px; 
     padding-bottom: 80px;
     padding-top: 50px;
@@ -66,14 +66,15 @@ body {
 .taglineouterbox {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    max-width: 50%;
+    width: 50%;
 }
+
 
 .taglineinnerbox {
     display: flex;
     flex-direction: column;
     gap: 0px;
+    margin: auto;
 }
 
 .secondarytagline {
@@ -177,4 +178,24 @@ h2 {
 
 .whitespace {
     height: 50px;
+}
+
+
+
+.userpics {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.userpics > img {
+    width: auto;
+    align-self: flex-end;
+    transition: transform ease 300ms;
+
+}
+
+.userpics > img:hover {
+    transform: translate(-10px, 0px);
 }
