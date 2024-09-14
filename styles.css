@@ -1,13 +1,40 @@
 p{
     font-family: poppins;
+    margin: 0px;
+}
+
+h1 {
+    font-family: Poppins;
+    font-size: 48px;
+    font-weight: 1200;
+    margin: 0px;
+    max-width: 400px;
+    line-height: 48px;
+}
+
+h2 {
+    font-family: Poppins;
+    font-size: 48px;
+    font-weight: 900;
+    margin: 0px;
+    line-height: 48px;
+    width: 80%;
+
 }
 
 h3 {
-    font-weight: 2400;
+    font-weight: 900;
+    font-weight: bold;
     font-family:  Poppins;
-    font-size: 24px;
+    font-size: 36px;
     margin-top: 0px;
+    margin-bottom: 0px;
 }
+
+
+
+
+
 
 section {
     width: auto;
@@ -22,16 +49,24 @@ body {
     margin: 0px;
 }
 
+
+
+
+
+
+
 .navbar {
     background-color: black;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
-    padding: 0px 40px 0px 40px;
+    padding: 10px 40px 10px 40px;
     margin: 0px 0px 0px 0px;
     position: sticky;
     top: 0;
+    z-index: 1;
+    
 }
 
 .navlinks {
@@ -73,7 +108,7 @@ body {
 .taglineinnerbox {
     display: flex;
     flex-direction: column;
-    gap: 0px;
+    gap: 10px;
     margin: auto;
 }
 
@@ -86,14 +121,6 @@ body {
     overflow-x: visible;
 }
 
-h1 {
-    font-family: Poppins;
-    font-size: 48px;
-    font-weight: 1200;
-    margin: 0px;
-    max-width: 400px;
-    line-height: 48px;
-}
 
 button.bookdemo  {
     color: black;
@@ -104,6 +131,8 @@ button.bookdemo  {
     border: none;
     font-family: Poppins;
     font-weight: bold;
+    transition: transform 200ms ease;
+    margin-top: 10px;
 }
 
 #regular {
@@ -114,73 +143,104 @@ button.bookdemo  {
 
 button.bookdemo:hover {
     text-decoration: underline;
+    transform: scale(1.2);
 }
 
-.UGC {
+
+
+
+
+
+
+
+
+
+/* .UGC {
+    padding-top: 100px;
+    padding-bottom: 200px;
+    padding-left: 50px;
+    padding-right: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} */
+
+.sectionheader {
     padding-top: 50px;
-    padding-bottom: 100px;
+    padding-bottom: 50px;
+    width: 70%;
+    margin: 80px auto 50px auto;
 }
 
 .UGCinsights {
-    display: grid;
-    grid-template-columns: 350px 350px;
+    margin-top: 100px;
+    display: flex;
+    width: 70%;
     margin: auto;
-    width: fit-content;
-    gap: 20px;
-    row-gap: 80px;
+    gap: 80px;
+    
 }
+
+.UGCdatalist {
+    width: 60%;
+    position: sticky;
+    top: 20%;
+    height: fit-content;
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.UGCvisuallist {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 300px;
+    padding-bottom: 200px;
+    padding-top: 100px;
+} 
+
+
+
+
+
 
 .UGCdata {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    color: rgb(197, 197, 197);
+    transition: all 200ms ease;
+    
+    /* animation: fade-out;
+    animation-timeline: view(20% 400px); */
 }
 
-h2 {
-    font-family: Poppins;
-    font-size: 36px;
-    font-weight: bolder;
-    margin-bottom: 20px;
+.UGCdata.active {
+    color: black;
+    font-weight: 900;
+    border: 2px solid black;
+    border-radius: 10px;
 }
 
-.sectionheader {
-    width: 60%;
-    margin: auto;
-}
+/* @keyframes fade-out {
+    from {scale:1; opacity: 50%;}
+    to {scale: 0.9; opacity: 0%}
+} */
+
+
+
+
 
 .UGCvisual {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    
 }
-
-.oknowbook {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    width: 60%;
-    margin: auto;
-}
-.signoff {
-    background-color: black;
-    color: white;
-}
-
-.contact {
-    width: 60%;
-    margin: auto;
-}
-
-.contactlinks {
-    font-size: medium;
-}
-
-.contactlinks > p:hover {
-    text-decoration: underline;
-}
-
-.whitespace {
-    height: 50px;
-}
-
-
 
 .userpics {
     display: flex;
@@ -199,3 +259,60 @@ h2 {
 .userpics > img:hover {
     transform: translate(-10px, 0px);
 }
+
+
+
+.footer {
+    padding-top: 50px;
+}
+
+
+
+
+
+
+
+
+.oknowbook {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.signoff {
+    background-color: black;
+    color: white;
+}
+
+.contact {
+    width: 70%;
+    margin: auto;
+}
+
+.contactlinks {
+    padding-top: 20px;
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: fit-content;
+}
+
+.contactlinks > p:hover {
+    text-decoration: underline;
+}
+
+.whitespace {
+    height: 50px;
+}
+
+
+.contactlinks > p > a {
+    color: black;
+    text-decoration: none;
+}
+
+
