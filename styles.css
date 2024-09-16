@@ -340,6 +340,7 @@ a {
     padding-left: 0px;
     padding-right: 0px;
     gap: 80px;
+    width: 100%;
 }
 
 .userpics {
@@ -350,19 +351,37 @@ a {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
+.carouselholder {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow-x: hidden;
+}
+
+.userpics > img {
+    object-fit: cover;
+}
+
+
 #linetwo {
-    padding-left: 60px;
+    padding-left: 50px;
 }
 
 .nonresponsive {
     display: none;
 }
 
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+}
 
-
-
+h3 {
+    font-weight: 500;
+}
 
 }
 
