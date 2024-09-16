@@ -80,6 +80,10 @@ body {
     text-decoration: underline;
 }
 
+#hamburger {
+    display: none;
+}
+
 
 .firstfold {
     color: white;
@@ -119,6 +123,10 @@ body {
 .userpics {
     max-width: 55%;
     overflow-x: visible;
+}
+
+.userpicsmobile {
+    display: none;
 }
 
 
@@ -315,4 +323,92 @@ button.bookdemo:hover {
     text-decoration: none;
 }
 
+a {
+    all: inherit;
+}
 
+
+
+
+@media (max-width:1020px) {
+
+
+.firstfold {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding-left: 0px;
+    padding-right: 0px;
+    gap: 80px;
+}
+
+.userpics {
+    display: none;
+}
+
+.userpicsmobile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#linetwo {
+    padding-left: 60px;
+}
+
+.nonresponsive {
+    display: none;
+}
+
+
+
+
+
+}
+
+
+@media (max-width:768px) {
+    
+
+
+/* #hamburger {
+    display: block;
+    transition: transform 200ms ease;
+}
+
+#hamburger:hover {
+    transform: rotate(90deg);
+} */
+
+.navlink {
+    display: none;
+}
+
+.UGCinsights {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+
+.UGCdatalist {
+    width: 90%;
+    columns: black;
+    top: 20%;
+    height: fit-content;
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+
+.UGCvisuallist {
+    display: none;
+}
+
+
+.UGCdata {
+    color: black;
+}
+
+}
