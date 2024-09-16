@@ -3,10 +3,11 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles.css">
         <link rel="icon" type="image/png" sizes="favicon-16x16" href="favicon/favicon-32x32.png"> <!-- this is needed for arc -->
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-        <script src="script.js"></script>
+        
         <title> Boost your word of mouth with Cherry </title>
 
     </head>
@@ -15,7 +16,7 @@
         
         <!-- 
         TO DO:
-        add links to buttons 
+        Add other sections
         -->
         
         <section class="navbar">
@@ -25,13 +26,16 @@
 
             <div class="navlinks">
                 <div class="navlink">
-                    <p> About Us </p>
+                    <p id="comingsoon"> About Us </p>
                 </div>
                 <div class="navlink">
-                    <p> Brands </p>
+                    <p> <a href="https://cherrymarketing.co"> Brands </a> </p>
                 </div>
                 <div class="navlink">
-                    <p> User Log In </p>
+                    <p> <a href="https://cherryapp.in"> User Log In </a> </p>
+                </div>
+                <div id="hamburger">
+                    <img src="images/hamburger.svg" alt="hamburger menu">
                 </div>
             </div>
         </section>
@@ -53,10 +57,16 @@
             </div>
 
             <div class="userpics">
-                <img class="offset" src="images/firstline.svg" alt="firstline of user pic carousel">
-                <img src="images/secondline.svg" alt="secondline of user pic carousel">
-                <img class="offset" src="images/thirdline.svg" alt="thirdline of user pic carousel">
+                <img src="images/firstline.svg" alt="firstline of user pic carousel">
+                <img class="nonresponsive" src="images/secondline.svg" alt="secondline of user pic carousel">
+                <img src="images/thirdline.svg" alt="thirdline of user pic carousel">
             </div>
+
+            <div class="userpicsmobile">
+                <img class="carousel" id="lineone" src="images/phonefirstline.svg" alt="firstline of phone user pic carousel">
+                <img class="carousel" id="linetwo" src="images/phonesecondline.svg" alt="secondline of phone user pic carousel">
+            </div>
+
 
         </section>
         
@@ -64,7 +74,7 @@
         <section class="UGC">
             <div class="sectionheader">
                 <div id="sectionwrapper">
-                    <h2> We use the power of customer driven marketing</h2>
+                    <h2> Unlock the power of customer driven marketing</h2>
                 </div>
             </div>
 
@@ -113,6 +123,8 @@
             </div>
         </section>
 
+
+
         <section class="signoff">
             <div class="oknowbook">
                 <h2 class="nextlvl"> Ready to take it to the next level? </h2>
@@ -141,5 +153,6 @@
 
         </section>
 
+        <script src="script.js"></script>
     </body>
 </html>
