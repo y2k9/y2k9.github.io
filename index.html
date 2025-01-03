@@ -3,162 +3,50 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="styles.css">
-        <link rel="icon" type="image/png" sizes="favicon-16x16" href="favicon/favicon-32x32.png"> <!-- this is needed for arc -->
-        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-        
-        <title> Boost your word of mouth with Cherry </title>
-
-        <!--- last updated Nov 3rd 2024, unlinked framer domain --->
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Zero Hero Game </title>
+        <link rel='stylesheet' href="styles.css">
+        <link rel="icon" type="image/png" sizes="favicon-16x16" href="assets/favicon-32x32.png"> <!-- this is needed for arc -->
+        <!-- <link href="/Users/yashkewalramani/Desktop/Butterfly/Resources/Flat-UI-master/dist/css/flat-ui.css" rel="stylesheet"> -->
+        <link href="assets/dist/css/flat-ui.css" rel="stylesheet">
     </head>
 
     <body>
-        
-        <!-- 
-        TO DO:
-        Add other sections
-        -->
-        
-        <section class="navbar">
-            <div class="logo">
-                <img src="images/cherry.svg" alt="cherry logo">
+        <div id="scorebar">
+            <div id="countdown">  </div>
+            <div id="livescore"> Score: 0 </div>
+        </div>
+        <div id="topbar">
+            <div id="topbarcontents"> 
+                <h1> Zero Hero </h1>
+                <p> Get as many questions correct as you can in 1 minute. </p>
             </div>
 
-            <div class="navlinks">
-                <div class="navlink">
-                    <p id="comingsoon"> About Us </p>
-                </div>
-                <div class="navlink">
-                    <p> <a href="https://cherrymarketing.co"> Brands </a> </p>
-                </div>
-                <div class="navlink">
-                    <p> <a href="https://cherryapp.in"> User Log In </a> </p>
-                </div>
-                <div id="hamburger">
-                    <img src="images/hamburger.svg" alt="hamburger menu">
-                </div>
-            </div>
-        </section>
+        </div>
 
-        <section class="firstfold">
-            <div class="taglineouterbox">
-                <div class="taglineinnerbox">
-                    <div class="tagline">
-                        <h1> Turn your customers into marketers</h1>
-                    </div>
-                    <div class="secondarytagline">
-                        <p> Get real, authentic word of mouth marketing on social media </p>
-                    </div>
-                    <div class="maincta">
-                        <a href="https://tally.so/r/w7voER">
-                        <button class="bookdemo" type="button"> Book a demo </button> </a>
-                    </div>
+
+        <div id="gamebox">
+            <div id="questionbox">
+                <div id="x" class="questionfield">
+                    <p> X</p>
+                </div>
+                <div id="function">
+                    <p id="operator"> of </p>
+                </div>
+                <div id="y" class="questionfield">
+                    <p> Y </p>
                 </div>
             </div>
 
-            <div class="userpics">
-                <img src="images/firstline.svg" alt="firstline of user pic carousel">
-                <img class="nonresponsive" src="images/secondline.svg" alt="secondline of user pic carousel">
-                <img src="images/thirdline.svg" alt="thirdline of user pic carousel">
+            <div id="answerbox">
+                
             </div>
 
-            <div class="userpicsmobile">
-                <div class="carouselholder">
-                    <img class="carousel" id="lineone" src="images/phonefirstline.svg" alt="firstline of phone user pic carousel">
-                </div>
-                <div class="carouselholder">
-                    <img class="carousel" id="linetwo" src="images/phonesecondline.svg" alt="secondline of phone user pic carousel">
-                </div>
-            </div>
-
-
-        </section>
+        </div>
         
 
-        <section class="UGC">
-            <div class="sectionheader">
-                <div id="sectionwrapper">
-                    <h2> Unlock the power of customer driven marketing</h2>
-                </div>
-            </div>
-
-            <div class="UGCinsights">
-
-                <div class="UGCdatalist">
-                    <div class="UGCdata" id="engaging">
-                        <h3> It's engaging</h3>
-                        <p> Customer filmed content using just a phone camera has <strong>86% higher engagement</strong> compared to large influencer videos and even high budget brand films.</p>
-                        <!-- <button class="bookdemo" id="regular" type="button"> Book demo </button> -->
-                    </div>
-
-                    <div class="UGCdata" id="trustworthy">
-                        <h3> It's trustworthy</h3>
-                        <p> 57% of purchases come from friend recommendations. Ask anyone where they heard about a new restaurant, they'll say “I saw it on a friends story”! </p>
-                        <!-- <button class="bookdemo" id="regular" type="button"> Book demo </button> -->
-                    </div>
-                    
-                    <div class="UGCdata" id="targeted">
-                        <h3> It's targeted</h3>
-                        <p>  Unlike celebrity or large influencer accounts, smaller accounts have only friends and similar people following them. </p>
-                        <!-- <button class="bookdemo" id="regular" type="button"> Book demo </button> -->
-                    </div>
-
-                </div>
-
-                <div class="UGCvisuallist">
-                    <div class="UGCvisual" id="engaging">
-                        <img class="UGCchart" src="images/engaging.svg" alt="chart of engagement rate">
-                    </div>
-
-                    <div class="UGCvisual" id="trustworthy">
-                        <img class="UGCchart" src="images/trustworthy.svg" alt="chart of purchase reasons">
-                    </div>
-                
-                    
-
-                    <div class="UGCvisual" id="targeted">
-                        <img class="UGCchart" src="images/targeted.svg" alt="chart of similarity score">
-                </div>
-
-            </div>
-
-                
-
-            </div>
-        </section>
 
 
-
-        <section class="signoff">
-            <div class="oknowbook">
-                <h2 class="nextlvl"> Ready to take it to the next level? </h2>
-                <p> Get real, authentic word of mouth marketing on social media </p>
-                <div class="maincta">
-                    <a href="https://tally.so/r/w7voER">
-                    <button class="bookdemo" type="button"> Book a demo </button></a>
-                </div>
-            </div>
-        </section>
-
-        <section class="footer">
-            <div class="contact">
-                <h2> Contact Us </h2>
-                
-                <div class ="contactlinks">
-                    <p> <a href="https://www.instagram.com/cherryapp.in/"> Instagram </a> </p>
-                    <p> <a href="mailto:yash@cherrymarketing.co"> Email </a> </p>
-                    <p> <a href="https://api.whatsapp.com/send?phone=919820271297&text=%F0%9F%8D%92%20%0AHi%20Yash!%20Tell%20me%20more%20about%20Cherry"> Whatsapp </a> </p>
-                    
-                </div>
-            </div>
-        </section>
-
-        <section class="whitespace">
-
-        </section>
-
-        <script src="script.js"></script>
+        <script src="zerohero.js"></script>
     </body>
 </html>
