@@ -20,12 +20,12 @@ var isGameOver = false;
 var attemptCount = 0;
 var correctCount = 0;
 
-var gameDuration = 61000;
+var gameDuration = 50000;
 var timeLeft = gameDuration;
 var timerRunning = false ;
 var tempQuestionType = null;
 
-
+var gameMode = null;
 
 
 
@@ -35,15 +35,29 @@ scorebox.style.display = "none";
 questionbox.style.display = "none";
 answerbox.style.display = "none";
 operatorbox.style.display = "none";
-var startButton = document.createElement('div');
-startButton.id = "startbox";
-var startButtonText = document.createTextNode('Start Game');
-startButton.appendChild(startButtonText);
-gamebox.insertBefore(startButton,questionbox);
-startButton.addEventListener('click', startGame);
 
-// start Game Loop 
+// start Game 1 - Zero Hero 
+var zeroHeroStartButton = document.createElement('div');
+zeroHeroStartButton.className = "startbox";
+zeroHeroStartButton.id = "zeroherostartbox";
+var zeroHeroStartButtonText = document.createTextNode('Play Zero Hero');
+zeroHeroStartButton.appendChild(zeroHeroStartButtonText);
+gamebox.insertBefore(zeroHeroStartButton,questionbox);
+zeroHeroStartButton.addEventListener('click', () => changeGameMode("zerohero"));
+zeroHeroStartButton.addEventListener('click', startGame);
 
+// start Game 2 - VC Math (for now just pre money)
+var valProStartButton = document.createElement('div');
+valProStartButton.className = "startbox";
+valProStartButton.id = "valprostartbox";
+var valProStartButtonText = document.createTextNode('Play Valuation Pro');
+valProStartButton.appendChild(valProStartButtonText);
+gamebox.insertBefore(valProStartButton,questionbox);
+valProStartButton.addEventListener('click', () => changeGameMode("valpro"));
+valProStartButton.addEventListener('click', startGame);
+
+
+// Zero Hero Game Loop 
 function startGame() {
     isGameOver = false;
     timeLeft = gameDuration;
@@ -51,7 +65,8 @@ function startGame() {
     updateTime();
     liveTime.style.color = "#2c3e50";
     updateScore();
-    startButton.remove();
+    zeroHeroStartButton.remove();
+    valProStartButton.remove();
 
     headerbox.style.display = "none";
     scorebox.style.display = "flex";
@@ -74,7 +89,6 @@ function startGame() {
 // MAIN GAME LOOP
 function gameLoop() { 
 
-
     if (isGameOver==false) {
         attemptCount++;
         createQuestion();
@@ -93,19 +107,30 @@ function gameLoop() {
 function createQuestion() {
 
     operatorbox.style.display = "flex";
+    questionbox.style.display = "flex";
 
-    var questionTypeArray = ["A","B"];
-    tempQuestionType = questionTypeArray[Math.round(Math.random())];
+    if (gameMode == "zerohero") {
+        var questionTypeArray = ["ZHA","ZHB"];
+        tempQuestionType = questionTypeArray[Math.round(Math.random())];
+    } else if (gameMode == "valpro") {
+        tempQuestionType = "VPPre";
+    }
+
 
     x = generateX(tempQuestionType);
     xBox.innerHTML = formatNumber("X", x);
 
     y = generateY(tempQuestionType);
-    yBox.innerHTML = formatNumber("normal",y);
+    yBox.innerHTML = formatNumber("Y",y);
 
     changeOperator(tempQuestionType);
 
-    correctAnswer = x*y;
+    if (gameMode == "zerohero") {
+        correctAnswer = x*y;
+    } else if (gameMode == "valpro") {
+        correctAnswer = (1/y)*x;
+    }
+    
     
 }
 
@@ -116,13 +141,15 @@ function generateAnswers(){
 
     // create array of 4 answers
     var answerArray = [];
-    var decoyMagnitudeArrayTypeA = [0.000001, 0.00001, 0.0001,0.001,0.01, 0.1]; 
-    var decoyMagnitudeArrayTypeB = [0.001,0.01, 0.1,10,100,1000]; 
+    var decoyMagnitudeArrayTypeZHA = [0.000001, 0.00001, 0.0001,0.001,0.01, 0.1]; 
+    var decoyMagnitudeArrayTypeZHB = [0.001,0.01, 0.1,10,100,1000]; 
 
-    if (tempQuestionType=="A") {
-        var decoyMagnitudeArray = decoyMagnitudeArrayTypeA;
-    } else if (tempQuestionType=="B") {
-        var decoyMagnitudeArray = decoyMagnitudeArrayTypeB;
+    if (tempQuestionType=="ZHA") {
+        var decoyMagnitudeArray = decoyMagnitudeArrayTypeZHA;
+    } else if (tempQuestionType=="ZHB") {
+        var decoyMagnitudeArray = decoyMagnitudeArrayTypeZHB;
+    } else if (tempQuestionType=="VPPre")  {
+        var decoyMagnitudeArray = [0.7,0.8,0.9,1.1,1.2,1.3];
     } else {
         console.log("Error with array creation");
     }
@@ -153,7 +180,7 @@ function generateAnswers(){
         optionBox.id = "wrongAns";
     }
     
-    var option = document.createTextNode(formatNumber("normal",optionContent));
+    var option = document.createTextNode(formatNumber("answer",optionContent));
     optionBox.appendChild(option);
     answerbox.appendChild(optionBox);
     optionBox.addEventListener('click',validateAnswer);
@@ -229,7 +256,7 @@ function gameOver() {
     //on click call clearBoard and st
 
     var restartButton = document.createElement('div');
-    restartButton.id = "startbox";
+    restartButton.className = "startbox";
     var restartButtonText = document.createTextNode('Restart Game');
     restartButton.appendChild(restartButtonText);
     gamebox.appendChild(restartButton);
@@ -252,21 +279,39 @@ function gameOver() {
 
 function generateX(type) {
 
-    if (type=="A"){
-        // (A) generate a % in the 1 to 20% range
-        var max = 25;
-        var min = 1;
-        var finalX = (Math.floor(Math.random() * (max - min) + min))/100;
-        return finalX;
-    } else if (type=="B") {
-        // (B) generate a simple, small number below 10,000
-        var num = (Math.floor(Math.random() * (20 - 1) + 1));
-        var magnitudeArray = [1,10,100];
+    // Zero Hero
+    if (gameMode == "zerohero") {
+        if (type=="ZHA"){
+            // (A) generate a % in the 1 to 25% range
+            var max = 25;
+            var min = 1;
+            var finalX = (Math.floor(Math.random() * (max - min) + min))/100;
+            return finalX;
+        } else if (type=="ZHB") {
+            // (B) generate a simple, small number below 10,000
+            var num = (Math.floor(Math.random() * (20 - 1) + 1));
+            var magnitudeArray = [1,10,100];
+            var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)];
+            return num*mag;
+        } else {
+            return "Generate X Error - Zero Hero "
+        }   
+        
+
+    // Valuation Pro   
+    } else if (gameMode == "valpro") {
+        var num = (Math.floor(Math.random() * (10 - 1) + 1));
+        var magnitudeArray = [100000,1000000,10000000,10000000];
         var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)];
         return num*mag;
+
+
     } else {
-        return "11"
+        console.log("Generate X Error - Generic")
+        return "Generate X Error - Generic";
+
     }
+
     
     
 
@@ -276,63 +321,139 @@ function generateX(type) {
 
 function generateY(type) {
 
-    if (type == "A") {
-        // (A) generate a simple but large number
-        var magnitudeArray = [100000,1000000,10000000,100000000,1000000000,10000000000];
-        var num = (Math.floor(Math.random() * (10 - 1) + 1));
-        var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)]
-        return num*mag;
-    } else if (type =="B") {
-        // (B) generate a simple but large number
-        var magnitudeArray = [100, 1000,10000,100000,1000000,10000000];
-        var num = (Math.floor(Math.random() * (10 - 1) + 1));
-        var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)];
-        return num*mag;
+    // Zero Hero
+    if (gameMode== "zerohero") {
+        if (type == "ZHA") {
+            // (A) generate a simple but large number
+            var magnitudeArray = [100000,1000000,10000000,100000000,1000000000,10000000000];
+            var num = (Math.floor(Math.random() * (10 - 1) + 1));
+            var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)]
+            return num*mag;
+        } else if (type =="ZHB") {
+            // (B) generate a simple but large number
+            var magnitudeArray = [100, 1000,10000,100000,1000000,10000000];
+            var num = (Math.floor(Math.random() * (10 - 1) + 1));
+            var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)];
+            return num*mag;
+        } else {
+            return "22";
+        }
+
+
+    // Valuation Pro
+    } else if (gameMode == "valpro") {
+        // (A) generate a % in the 1 to 25% range
+        var max = 25;
+        var min = 1;
+        var finalX = (Math.floor(Math.random() * (max - min) + min))/100;
+        return finalX;
+
+    // Error Handling
     } else {
-        return "22";
+        return 2;
     }
+
+    
 
 }
     
 function changeOperator(type) {
-    if (type == "A") {
+    if (type == "ZHA") {
         // of
         operator.innerHTML = "of";
         operator.style.color = "#2980b9";
         
-    } else if (type =="B") {
+    } else if (type =="ZHB") {
         // into
         operator.innerHTML = "into";
         operator.style.color = "#16a085";
-        
+    } else if (type =="VPPre") {
+        // into
+        operator.innerHTML = "for";
+        operator.style.color = "#16a085";
+
     } else {
         operator.style.color = "#c0392b";
         console.log("error w operator");
         return "error w operator";
     }
 }
-    
 
 function formatNumber(type, number) {
-    //less than 1 becomes a %
-    if (type == "X") {
+
+    
+    // Zero Hero 
+    if (gameMode == "zerohero") {
+        if (type == "X") {
+            if (number<1) {
+                return (number*100).toFixed() + "%";
+            }
+        }
+        
+        //large numbers get text
+        if (number>0 && number<1000) {
+            return number.toFixed();
+        } else if (number>=1000 && number<100000) {
+            return number.toLocaleString();
+        } else if (number>=100000 && number<10000000) {
+            return number.toFixed()/100000 + " lakhs";
+        } else if (number>=10000000) {
+            return number.toFixed()/10000000 + " crores";
+        }
+    
+        
+
+    // Valuation Pro
+    } else if  (gameMode=="valpro") {
+      
         if (number<1) {
             return (number*100).toFixed() + "%";
-        }
-    }
-    
-    //mid numbers get commas
+        } else if (type=="X") {
+            if (number>0 && number<1000) {
+                return number.toFixed();
+            } else if (number>=1000 && number<100000) {
+                return number.toLocaleString();
+            } else if (number>=100000 && number<10000000) {
+                return number.toFixed()/100000 + " lakhs";
+            } else if (number>=10000000) {
+                return number.toFixed()/10000000 + " crores";
+            }
+        } else if (type == "answer") {
+            if (getDecimalPlaces(number)>2) {
 
-    //large numbers get text
-    if (number>0 && number<1000) {
-        return number.toFixed();
-    } else if (number>=1000 && number<100000) {
-        return number.toLocaleString();
-    } else if (number>=100000 && number<10000000) {
-        return number.toFixed()/100000 + " lakhs";
-    } else if (number>=10000000) {
-        return number.toFixed()/10000000 + " crores";
+            }
+
+
+            if (number>=100000 && number<10000000) {
+                if (getDecimalPlaces(number)>1) {
+                    return (number/100000).toFixed(1) + " Lakhs" + " Post-Money";
+                }
+                return number.toFixed()/100000 + " Lakhs" + " Post-Money";
+
+            } else if (number>=10000000) {
+                if (getDecimalPlaces(number)>1) {
+                    return (number/10000000).toFixed(1) + " Crores" + " Post-Money";
+                }
+                return number.toFixed()/10000000 + " Crores" + " Post-Money";
+
+            }
+
+        } else {
+            console.log("error in number formatting for val pro");
+            return "error in number formatting for val pro";
+        }
+
+    // Error Handling
+    } else {
+        console.log("error in number formatting");
+        return "error in number formatting";
     }
+
+    
+
+    
+
+
 
 }
 
@@ -354,7 +475,7 @@ function shuffle(array) {
 
 function sweepBoard() {
 
-    document.getElementById("startbox").remove();
+    document.querySelector(".startbox").remove();
     gameOverBox.remove();
 }
 
@@ -363,6 +484,7 @@ function clearBoard() {
 
     xBox.innerHTML = null;
     yBox.innerHTML = null;
+    questionbox.style.display = "none";
     operatorbox.style.display = "none";
 
 
@@ -420,4 +542,23 @@ function scoreMessage(score) {
     return scoreMsg;
 }
 
+function changeGameMode(mode) {
+    gameMode = mode;
 
+    if (gameMode=="valpro") {
+        scorebox.style.backgroundColor = "rgba(52, 152, 219, 0.4)";
+    }
+}
+
+
+function getDecimalPlaces(number) {
+    if (!Number.isFinite(number)) return 0; // Handle edge cases like Infinity or NaN
+  
+    const numberString = number.toString();
+  
+    if (numberString.includes('.')) {
+      return numberString.split('.')[1].length;
+    }
+  
+    return 0; // No decimal places if there's no '.'
+}
