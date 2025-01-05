@@ -1,3 +1,4 @@
+console.log("v3 JS is live");
 
 // get Objects
 const xBox = document.getElementById("x");
