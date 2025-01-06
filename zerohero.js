@@ -1,4 +1,3 @@
-console.log("v3 JS is live");
 
 // get Objects
 const xBox = document.getElementById("x");
@@ -21,41 +20,54 @@ var isGameOver = false;
 var attemptCount = 0;
 var correctCount = 0;
 
-var gameDuration = 50000;
+var gameDuration = 61000;
 var timeLeft = gameDuration;
 var timerRunning = false ;
 var tempQuestionType = null;
 
 var gameMode = null;
 
+var zeroHeroStartButton = null;
+var valProStartButton = null;
+
+console.log("Welcome to VC for Dummies");
+console.log("a y2k9 production");
+console.log("this is version 4");
 
 
 
-// initialise page
-scorebox.style.display = "none";
-questionbox.style.display = "none";
-answerbox.style.display = "none";
-operatorbox.style.display = "none";
+function initialiseGame() {
+    // initialise page
+    headerbox.style.display = "flex";
+    scorebox.style.display = "none";
+    questionbox.style.display = "none";
+    answerbox.style.display = "none";
+    operatorbox.style.display = "none";
 
-// start Game 1 - Zero Hero 
-var zeroHeroStartButton = document.createElement('div');
-zeroHeroStartButton.className = "startbox";
-zeroHeroStartButton.id = "zeroherostartbox";
-var zeroHeroStartButtonText = document.createTextNode('Play Zero Hero');
-zeroHeroStartButton.appendChild(zeroHeroStartButtonText);
-gamebox.insertBefore(zeroHeroStartButton,questionbox);
-zeroHeroStartButton.addEventListener('click', () => changeGameMode("zerohero"));
-zeroHeroStartButton.addEventListener('click', startGame);
+    // start Game 1 - Zero Hero 
+    zeroHeroStartButton = document.createElement('div');
+    zeroHeroStartButton.className = "startbox";
+    zeroHeroStartButton.id = "zeroherostartbox";
+    var zeroHeroStartButtonText = document.createTextNode('Play Zero Hero');
+    zeroHeroStartButton.appendChild(zeroHeroStartButtonText);
+    gamebox.insertBefore(zeroHeroStartButton,questionbox);
+    zeroHeroStartButton.addEventListener('click', () => changeGameMode("zerohero"));
+    zeroHeroStartButton.addEventListener('click', startGame);
 
-// start Game 2 - VC Math (for now just pre money)
-var valProStartButton = document.createElement('div');
-valProStartButton.className = "startbox";
-valProStartButton.id = "valprostartbox";
-var valProStartButtonText = document.createTextNode('Play Valuation Pro');
-valProStartButton.appendChild(valProStartButtonText);
-gamebox.insertBefore(valProStartButton,questionbox);
-valProStartButton.addEventListener('click', () => changeGameMode("valpro"));
-valProStartButton.addEventListener('click', startGame);
+    // start Game 2 - VC Math (for now just pre money)
+    valProStartButton = document.createElement('div');
+    valProStartButton.className = "startbox";
+    valProStartButton.id = "valprostartbox";
+    var valProStartButtonText = document.createTextNode('Play Valuation Pro');
+    valProStartButton.appendChild(valProStartButtonText);
+    gamebox.insertBefore(valProStartButton,questionbox);
+    valProStartButton.addEventListener('click', () => changeGameMode("valpro"));
+    valProStartButton.addEventListener('click', startGame); 
+
+}
+
+initialiseGame();
+
 
 
 // Zero Hero Game Loop 
@@ -114,7 +126,8 @@ function createQuestion() {
         var questionTypeArray = ["ZHA","ZHB"];
         tempQuestionType = questionTypeArray[Math.round(Math.random())];
     } else if (gameMode == "valpro") {
-        tempQuestionType = "VPPre";
+        var questionTypeArray = ["VPPre","VPPost"];
+        tempQuestionType = questionTypeArray[Math.round(Math.random())];
     }
 
 
@@ -129,7 +142,12 @@ function createQuestion() {
     if (gameMode == "zerohero") {
         correctAnswer = x*y;
     } else if (gameMode == "valpro") {
-        correctAnswer = (1/y)*x;
+        if (tempQuestionType == "VPPost") {
+            correctAnswer = (1/y)*x;
+        } else if (tempQuestionType == "VPPre") {
+            correctAnswer = ((1/y)*x)-x;
+        }
+        
     }
     
     
@@ -149,7 +167,7 @@ function generateAnswers(){
         var decoyMagnitudeArray = decoyMagnitudeArrayTypeZHA;
     } else if (tempQuestionType=="ZHB") {
         var decoyMagnitudeArray = decoyMagnitudeArrayTypeZHB;
-    } else if (tempQuestionType=="VPPre")  {
+    } else if (tempQuestionType=="VPPre" ||tempQuestionType=="VPPost")  {
         var decoyMagnitudeArray = [0.7,0.8,0.9,1.1,1.2,1.3];
     } else {
         console.log("Error with array creation");
@@ -252,19 +270,33 @@ function gameOver() {
     gamebox.appendChild(gameOverBox);
     
     
-    //add option to restart
-    //draw button
-    //on click call clearBoard and st
-
+    // Replay Game
     var restartButton = document.createElement('div');
     restartButton.className = "startbox";
-    var restartButtonText = document.createTextNode('Restart Game');
+    restartButton.id = "restartbox";
+    var restartButtonText = document.createTextNode('Play Again');
     restartButton.appendChild(restartButtonText);
     gamebox.appendChild(restartButton);
 
     restartButton.addEventListener('click', sweepBoard);
     restartButton.addEventListener('click', clearBoard);
     restartButton.addEventListener('click', startGame);
+    
+    // Back to Home
+    var backHomeButton = document.createElement('div');
+    backHomeButton.className = "startbox";
+    backHomeButton.id = "backhomebutton";
+    var backHomeButtonText = document.createTextNode("Back Home");
+    backHomeButton.appendChild(backHomeButtonText);
+    gamebox.appendChild(backHomeButton);
+
+    backHomeButton.addEventListener('click', sweepBoard);
+    backHomeButton.addEventListener('click', clearBoard);
+    backHomeButton.addEventListener('click', initialiseGame);
+
+
+
+
 }
 
 
@@ -368,7 +400,7 @@ function changeOperator(type) {
         // into
         operator.innerHTML = "into";
         operator.style.color = "#16a085";
-    } else if (type =="VPPre") {
+    } else if (type =="VPPre" || type =="VPPost" ) {
         // into
         operator.innerHTML = "for";
         operator.style.color = "#16a085";
@@ -420,24 +452,41 @@ function formatNumber(type, number) {
                 return number.toFixed()/10000000 + " crores";
             }
         } else if (type == "answer") {
-            if (getDecimalPlaces(number)>2) {
 
+            if (tempQuestionType=="VPPre") {
+                if (number>=100000 && number<10000000) {
+                    if (getDecimalPlaces(number)>1) {
+                        return (number/100000).toFixed(1) + " Lakhs" + " Pre-Money";
+                    }
+                    return number.toFixed()/100000 + " Lakhs" + " Pre-Money";
+    
+                } else if (number>=10000000) {
+                    if (getDecimalPlaces(number)>1) {
+                        return (number/10000000).toFixed(1) + " Crores" + " Pre-Money";
+                    }
+                    return number.toFixed()/10000000 + " Crores" + " Pre-Money";
+                }
+
+            } else if (tempQuestionType=="VPPost"){
+                if (number>=100000 && number<10000000) {
+                    if (getDecimalPlaces(number)>1) {
+                        return (number/100000).toFixed(1) + " Lakhs" + " Post-Money";
+                    }
+                    return number.toFixed()/100000 + " Lakhs" + " Post-Money";
+    
+                } else if (number>=10000000) {
+                    if (getDecimalPlaces(number)>1) {
+                        return (number/10000000).toFixed(1) + " Crores" + " Post-Money";
+                    }
+                    return number.toFixed()/10000000 + " Crores" + " Post-Money";
+                }
+            } else {
+                return "error in VPro Answer Formatting"
             }
 
+            
 
-            if (number>=100000 && number<10000000) {
-                if (getDecimalPlaces(number)>1) {
-                    return (number/100000).toFixed(1) + " Lakhs" + " Post-Money";
-                }
-                return number.toFixed()/100000 + " Lakhs" + " Post-Money";
 
-            } else if (number>=10000000) {
-                if (getDecimalPlaces(number)>1) {
-                    return (number/10000000).toFixed(1) + " Crores" + " Post-Money";
-                }
-                return number.toFixed()/10000000 + " Crores" + " Post-Money";
-
-            }
 
         } else {
             console.log("error in number formatting for val pro");
@@ -476,7 +525,8 @@ function shuffle(array) {
 
 function sweepBoard() {
 
-    document.querySelector(".startbox").remove();
+    document.querySelector("#restartbox").remove();
+    document.querySelector("#backhomebutton").remove();
     gameOverBox.remove();
 }
 
@@ -527,20 +577,43 @@ function updateTime() {
 function scoreMessage(score) {
     var scoreMsg = null; 
 
-    if (score==0) {
-        scoreMsg = "WAHHHH 👏 You suck...";
-    } else if (score>0 && score<=3) {
-        scoreMsg = "Tragic... Please study hard and come back...";
-    } else if (score>3 && score<=6) {
-        scoreMsg = "Um, not the worst, but not good. Practice harder...";
-    } else if (score>6 && score<=9) {
-        scoreMsg = "Pretty good. But you still have work to do...";
-    } else if (score>9 && score<=13) {
-        scoreMsg = "Nice one. You're ready to be an analyst 🙏";
-    } else if (score>13) {
-        scoreMsg = "Prodigy 👏 You have mastered the VC game!";
+    if (gameMode=="zerohero") {
+        if (score==0) {
+            scoreMsg = "👏👏👏👏  You suck... 👏👏👏👏 ";
+        } else if (score>0 && score<=3) {
+            scoreMsg = "Tragic... How many zeros are in 'That was SOOOO bad' ? ";
+        } else if (score>3 && score<=6) {
+            scoreMsg = "Not bad, but you still need to practice harder...";
+        } else if (score>6 && score<=9) {
+            scoreMsg = "Pretty good! You're finally smarter than a 5th grader..";
+        } else if (score>9 && score<=13) {
+            scoreMsg = "Amazing! Almost as good as the YASH himself.";
+        } else if (score>13) {
+            scoreMsg = "Prodigy 👏 You're a Zero Hero!";
+        }
+        
+    } else if (gameMode=="valpro") {
+        if (score==0) {
+            scoreMsg = "👏👏👏👏  You suck... 👏👏👏👏 ";
+        } else if (score>0 && score<=2) {
+            scoreMsg = "Tragic... no deal for you! ";
+        } else if (score>2 && score<=4) {
+            scoreMsg = "Not bad. With a little practice you can start making deals ";
+        } else if (score>4 && score<=6) {
+            scoreMsg = "Pretty good. You're ready to start raising";
+        } else if (score>6 && score<=7) {
+            scoreMsg = "Nice one. Have you considered a career in investing?";
+        } else if (score>7) {
+            scoreMsg = "Legend 👏 You're a Valuation Pro! ";
+        }
+
+
+    } else {
+        scoreMsg = "Keep going!";
     }
+
     return scoreMsg;
+    
 }
 
 function changeGameMode(mode) {
@@ -548,6 +621,10 @@ function changeGameMode(mode) {
 
     if (gameMode=="valpro") {
         scorebox.style.backgroundColor = "rgba(52, 152, 219, 0.4)";
+    } else if (gameMode=="zerohero") {
+        scorebox.style.backgroundColor = "rgba(46, 204, 113, 0.4)";
+    } else {
+        scorebox.style.backgroundColor = "#a6acaf"
     }
 }
 
