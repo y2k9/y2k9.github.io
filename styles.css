@@ -177,6 +177,20 @@ html {
     text-align: center;
 }
 
+#backhomebutton {
+    background-color: #a6acaf ;
+}
+
+#backhomebutton:hover {
+    background-color: #797d7f ;
+}
+
+#backhomebutton:active {
+    background-color: #626567 ;
+}
+
+
+
 /* @media (max-width: 600px) {
     #scorebar {
       margin-bottom: 20%;
