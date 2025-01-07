@@ -29,10 +29,11 @@ var gameMode = null;
 
 var zeroHeroStartButton = null;
 var valProStartButton = null;
+var masterConvStartButton = null;
 
 console.log("Welcome to VC for Dummies");
 console.log("a y2k9 production");
-console.log("this is version 4");
+console.log("this is version 5");
 
 
 
@@ -54,7 +55,7 @@ function initialiseGame() {
     zeroHeroStartButton.addEventListener('click', () => changeGameMode("zerohero"));
     zeroHeroStartButton.addEventListener('click', startGame);
 
-    // start Game 2 - VC Math (for now just pre money)
+    // start Game 2 - Valuation Pro
     valProStartButton = document.createElement('div');
     valProStartButton.className = "startbox";
     valProStartButton.id = "valprostartbox";
@@ -63,6 +64,18 @@ function initialiseGame() {
     gamebox.insertBefore(valProStartButton,questionbox);
     valProStartButton.addEventListener('click', () => changeGameMode("valpro"));
     valProStartButton.addEventListener('click', startGame); 
+
+    // start Game 3 - Master Converter
+    masterConvStartButton = document.createElement('div');
+    masterConvStartButton.className = "startbox";
+    masterConvStartButton.id = "mastconvstartbox";
+    var masterConvStartButtonText = document.createTextNode('Play Master Converter');
+    masterConvStartButton.appendChild(masterConvStartButtonText);
+    gamebox.insertBefore(masterConvStartButton,questionbox);
+    masterConvStartButton.addEventListener('click', () => changeGameMode("mastconv"));
+    masterConvStartButton.addEventListener('click', startGame); 
+
+
 
 }
 
@@ -80,6 +93,7 @@ function startGame() {
     updateScore();
     zeroHeroStartButton.remove();
     valProStartButton.remove();
+    masterConvStartButton.remove();
 
     headerbox.style.display = "none";
     scorebox.style.display = "flex";
@@ -90,7 +104,18 @@ function startGame() {
 
     myInterval = setInterval(updateTime, 1000);
     setTimeout(gameOver, gameDuration);
-    gameLoop();
+
+
+    gameLoopForZHandVP(); 
+
+    // if (gameMode == "zerohero" || gameMode=="valpro") {
+    //     gameLoopForZHandVP();
+    // } else if (gameMode == "mastconv") {
+    //     console.log("Master Converter");
+    // } else {
+    //     console.log("Master Converter");
+    // }
+    
 
 
 
@@ -100,7 +125,7 @@ function startGame() {
 
 
 // MAIN GAME LOOP
-function gameLoop() { 
+function gameLoopForZHandVP() { 
 
     if (isGameOver==false) {
         attemptCount++;
@@ -113,6 +138,14 @@ function gameLoop() {
     
 }
 
+function gameLoopforMC() {
+    if (isGameOver==false) {
+        attemptCount++;
+        createQuestion();
+        generateAnswers();
+        validateAnswer();
+    }
+}
 
 
 
@@ -127,6 +160,9 @@ function createQuestion() {
         tempQuestionType = questionTypeArray[Math.round(Math.random())];
     } else if (gameMode == "valpro") {
         var questionTypeArray = ["VPPre","VPPost"];
+        tempQuestionType = questionTypeArray[Math.round(Math.random())];
+    } else if (gameMode == "mastconv") {
+        var questionTypeArray = ["MCINRTOUSD","MCUSDTOINR"];
         tempQuestionType = questionTypeArray[Math.round(Math.random())];
     }
 
@@ -146,8 +182,13 @@ function createQuestion() {
             correctAnswer = (1/y)*x;
         } else if (tempQuestionType == "VPPre") {
             correctAnswer = ((1/y)*x)-x;
-        }
-        
+        } 
+    } else if (gameMode == "mastconv") {
+        if (tempQuestionType == "MCINRTOUSD") {
+            correctAnswer = x/85;
+        } else if (tempQuestionType == "MCUSDTOINR") {
+            correctAnswer = x*85;
+        } 
     }
     
     
@@ -160,16 +201,18 @@ function generateAnswers(){
 
     // create array of 4 answers
     var answerArray = [];
+    var decoyMagnitudeArray = null;
     var decoyMagnitudeArrayTypeZHA = [0.000001, 0.00001, 0.0001,0.001,0.01, 0.1]; 
     var decoyMagnitudeArrayTypeZHB = [0.001,0.01, 0.1,10,100,1000]; 
+    var decoyMagnitudeArrayTypeGeneric = [0.7,0.8,0.9,1.1,1.2,1.3];
 
     if (tempQuestionType=="ZHA") {
-        var decoyMagnitudeArray = decoyMagnitudeArrayTypeZHA;
+        decoyMagnitudeArray = decoyMagnitudeArrayTypeZHA;
     } else if (tempQuestionType=="ZHB") {
-        var decoyMagnitudeArray = decoyMagnitudeArrayTypeZHB;
-    } else if (tempQuestionType=="VPPre" ||tempQuestionType=="VPPost")  {
-        var decoyMagnitudeArray = [0.7,0.8,0.9,1.1,1.2,1.3];
-    } else {
+        decoyMagnitudeArray = decoyMagnitudeArrayTypeZHB;
+    } else if (tempQuestionType=="VPPre" ||tempQuestionType=="VPPost" || tempQuestionType == "MCINRTOUSD" || tempQuestionType == "MCUSDTOINR")  {
+        decoyMagnitudeArray = decoyMagnitudeArrayTypeGeneric;
+    }else {
         console.log("Error with array creation");
     }
 
@@ -231,7 +274,7 @@ function validateAnswer(event) {
 
     updateScore();
     setTimeout(clearBoard, 1200);
-    setTimeout(gameLoop, 1500);
+    setTimeout(gameLoopForZHandVP, 1500);
 }
 
 
@@ -338,6 +381,12 @@ function generateX(type) {
         var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)];
         return num*mag;
 
+    } else if (gameMode == "mastconv") {
+        var num = (Math.floor(Math.random() * (10 - 1) + 1));
+        var magnitudeArray = [100000,1000000,10000000,10000000,100000000,1000000000,10000000000];
+        var mag = magnitudeArray[Math.floor(Math.random()*magnitudeArray.length)];
+        return num*mag;
+
 
     } else {
         console.log("Generate X Error - Generic")
@@ -404,6 +453,10 @@ function changeOperator(type) {
         // into
         operator.innerHTML = "for";
         operator.style.color = "#16a085";
+    } else if (type =="MCINRTOUSD" || type =="MCUSDTOINR" ) {
+        // into
+        operator.innerHTML = "in";
+        operator.style.color = "#16a085";
 
     } else {
         operator.style.color = "#c0392b";
@@ -414,6 +467,7 @@ function changeOperator(type) {
 
 function formatNumber(type, number) {
 
+    
     
     // Zero Hero 
     if (gameMode == "zerohero") {
@@ -493,10 +547,79 @@ function formatNumber(type, number) {
             return "error in number formatting for val pro";
         }
 
+    // Master Converter
+    } else if (gameMode == "mastconv") {
+
+        if (type=="X") {
+            if (tempQuestionType=="MCINRTOUSD"){
+                if (number>0 && number<1000) {
+                    return number.toFixed();
+                } else if (number>=1000 && number<100000) {
+                    return number.toLocaleString();
+                } else if (number>=100000 && number<10000000) {
+                    return number.toFixed()/100000 + " lakhs";
+                } else if (number>=10000000) {
+                    return number.toFixed()/10000000 + " crores";
+                }
+            } else if (tempQuestionType=="MCUSDTOINR") {
+                if (number>0 && number<1000) {
+                    return "$"+number.toFixed();
+                } else if (number>=1000 && number<1000000) {
+                    return "$"+number.toLocaleString();
+                } else if (number>=1000000 && number<1000000000) {
+                    return "$"+(number/1000000).toFixed() + " million";
+                } else if (number>=1000000000) {
+                    return "$"+(number/1000000000).toFixed() + " billion";
+                }
+            } else {
+                console.log("error in MC X formatting");
+                return "error in MC X formatting";
+            }
+        
+        } else if (type=="Y") {
+            if (tempQuestionType == "MCINRTOUSD") {
+                return "dollars";
+            } else if (tempQuestionType == "MCUSDTOINR") {
+                return "rupees";
+            } else {
+                return "error in MC Y Formatting";
+            }
+        
+        } else if (type == "answer") {
+            if (tempQuestionType=="MCINRTOUSD") {
+                if (number>0 && number<1000) {
+                    return "$"+number.toFixed();
+                } else if (number>=1000 && number<1000000) {
+                    return "$"+number.toLocaleString();
+                } else if (number>=1000000 && number<1000000000) {
+                    return "$"+(number/1000000).toFixed(2) + " million";
+                } else if (number>=1000000000) {
+                    return "$"+(number/1000000000).toFixed(2) + " billion";
+                }
+            } else if (tempQuestionType=="MCUSDTOINR") {
+                if (number>0 && number<1000) {
+                    return number.toFixed();
+                } else if (number>=1000 && number<100000) {
+                    return number.toLocaleString();
+                } else if (number>=100000 && number<10000000) {
+                    return number.toFixed()/100000 + " lakhs";
+                } else if (number>=10000000) {
+                    return number.toFixed()/10000000 + " crores";
+                }
+            } else {
+                console.log("error with MC answer formatting")
+            }
+            
+            
+        } else {
+            return "error in MC Formatting" 
+        }
+    
+
     // Error Handling
-    } else {
+    }else {
         console.log("error in number formatting");
-        return "error in number formatting";
+        return number.toFixed();
     }
 
     
@@ -621,9 +744,14 @@ function changeGameMode(mode) {
 
     if (gameMode=="valpro") {
         scorebox.style.backgroundColor = "rgba(52, 152, 219, 0.4)";
+        document.getElementById("gametitle").innerHTML = "Valuation Pro";
     } else if (gameMode=="zerohero") {
+        scorebox.style.backgroundColor = "rgba(155, 89, 182, 0.4)";
+        document.getElementById("gametitle").innerHTML = "Zero Hero";
+    } else if (gameMode=="mastconv") {
         scorebox.style.backgroundColor = "rgba(46, 204, 113, 0.4)";
-    } else {
+        document.getElementById("gametitle").innerHTML = "Master Converter";
+    }else {
         scorebox.style.backgroundColor = "#a6acaf"
     }
 }
