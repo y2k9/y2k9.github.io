@@ -31,7 +31,7 @@ html {
 
 .questionfield {
     border-radius: 10px;
-    width: 150px;
+    width: 200px;
     height: 80px;
     display: flex;
     justify-content: space-around;
@@ -45,7 +45,7 @@ html {
 }
 
 .startbox {
-    background-color: #2ecc71;
+    background-color: #34495e;
     color: white;
     height: 50px;
     padding: 5px 15px 5px 15px;
@@ -57,12 +57,21 @@ html {
 }
 
 .startbox:hover {
-    background-color: #27ae60;
+    background-color: #2c3e50;
 }
 
 .startbox:active {
     background-color: #7f8c8d;
 }
+
+#zeroherostartbox {
+    background-color: #9b59b6;
+}
+
+#zeroherostartbox:hover {
+    background-color: #8e44ad;
+}
+
 
 
 #valprostartbox {
@@ -71,6 +80,14 @@ html {
 
 #valprostartbox:hover {
     background-color: #2980b9;
+}
+
+#mastconvstartbox {
+    background-color: #2ecc71;
+}
+
+#mastconvstartbox:hover {
+    background-color: #27ae60;
 }
 
 
@@ -191,8 +208,8 @@ html {
 
 
 
-/* @media (max-width: 600px) {
-    #scorebar {
-      margin-bottom: 20%;
+@media (max-width: 600px) {
+    #gametitle {
+      display: none;
     }
-  } */
+  }
